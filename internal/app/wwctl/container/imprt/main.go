@@ -120,6 +120,13 @@ func CobraRunE(cmd *cobra.Command, args []string) error {
 			_ = container.DeleteSource(name)
 			os.Exit(1)
 		}
+	} else if util.IsFile(uri) && path.Ext(path.Base(uri)) == "tar" {
+		err := container.ImportTar(uri, name)
+		if err != nil {
+			wwlog.Printf(wwlog.ERROR, "Could not import image: %s\n", err)
+			_ = container.DeleteSource(name)
+			os.Exit(1)
+		}
 	}
 
 	fmt.Printf("Updating the container's /etc/resolv.conf\n")
