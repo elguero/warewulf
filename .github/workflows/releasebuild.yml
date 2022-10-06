@@ -27,7 +27,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v3
         with:
-          go-version: '1.16'
+          go-version: '1.17'
           cache: true
 
       - name: Build tar.gz
@@ -73,6 +73,12 @@ jobs:
 
         - name: Run rpm build script
           run: ./mockbuild.sh  ${{ env.VERSION }}
+
+        - name: Upload EL9 RPM
+          uses: actions/upload-artifact@v3
+          with:
+            name: warewulf-${{ env.VERSION }}-${{ env.RELEASE }}.el9.x86_64.rpm
+            path: warewulf-${{ env.VERSION }}-${{ env.RELEASE }}.el9.x86_64.rpm
 
         - name: Upload EL8 RPM
           uses: actions/upload-artifact@v3
